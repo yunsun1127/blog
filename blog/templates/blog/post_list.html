@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+
+        {% block pagination %}
+        <ul class="pagination justify-content-center pagination-sm">
+        {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}" tabindex="-1">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item">
+            <a class="page-link" href="#">{{posts.number}}/{{posts.paginator.num_pages}}</a>
+        </li>
+
+        {% if posts.has_next %}
+        <li class="page-item">
+              <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Next</a>
+            </li>
+        {% endif %}
+        </ul>
+        {% endblock %}
+    {% endfor %}
+{% endblock %}
